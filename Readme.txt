@@ -1,4 +1,6 @@
-﻿It's a network system monitoring application. It can monitor the systems on a network,
+﻿# System Monitor
+
+It's a network system monitoring application. It can monitor the systems on a network,
 You can run 'client' program on a system. It collect the system usage data and sends it to a service ( A http sever ) and then exits.
 client identifies itself to service using a 'username and password'.
 You can confiure all clients' username and password and their limits for system usage on server ( where the service is run ) in an xml file.
