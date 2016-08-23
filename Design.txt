@@ -1,0 +1,105 @@
+Note: Please read file “Readme.txt” for information on setting up and compiling the project. This doc is about the design of project.
+
+Overview of Project:
+	=========
+	Client:
+	=========
+		•	Client reads the config data ( like username, password etc ) from  a file named “config.txt”
+		o	The config contains a keyword and then their value separated by space ( or tab ). 
+		Sample contents of the file are given below:
+			user	user2
+			pass	aaa2
+			address		http://localhost:11426
+			o	Copy this file to directory from where executable (client.exe) for the client program is executed.
+		
+		Note: If you’re compiling directly from Visual studio, copy this file in client project directory 
+		where all .cpp and .h files are located.
+		•	Client collects the data from local computer and sends it, in the body of http request, to http service. 
+		Sample of data sent by client ( in JSON format)
+		o	{
+		o		user: "user1",
+		o		pass: "samplePassword",
+		o		overallCPUUsage: "34.4",
+		o		overallAvailMem: 322222, 	// In KB
+		o		overallUsedMem: 3923986,	// In KB
+		o		totalProcesses: 120,
+		o		processes: [		// An array of objects
+		o			{
+		o				processName: "notepad.exe",
+		o				memoryConsumed: 63273 	// In Bytes
+		o				cpuUsage: 2 	// In percentage (%)
+		o			},
+		o	                             {
+		o				processName: "notepad.exe",
+		o				memoryConsumed: 63273 	// In Bytes
+		o				cpuUsage: 2 	// In percentage (%)
+		o			}
+		o		]
+		o	}
+
+		•	When executed, collects data in JSON format (json::value), sends to service for evaluation 
+		and exits after receiving response from service.
+	=========	
+	Service:
+	=========
+		•	Service reads the address, which is used for creating http server, from a config file “config.txt”.
+		o	The sample file contains word “addr” and then address separated
+			by space ( or tab ). A sample is shown below:
+				email	email@example.com
+				pass	examplepass
+				address	http://localhost:11426
+		o	These email credentials should be valid as they will be used to send emails. 
+			Allow less secure apps to be able to send emails. Please refer to https://support.google.com/accounts/answer/6010255?hl=en .
+		o	The configuration should be placed in same directory as the directory 
+			from where the executable (CPPCloudService.exe) of service is executed.
+		•	Service reads the details of clients from database file “test.xml”.
+		o	The sample contents of test.xml are shown below:
+			   <?xml version="1.0"?>
+				<client login="user1" pass="aaa1", mail="abhgang@gmail.com">
+					<alert type="memory" limit="50%" />
+					<alert type="cpu" limit="60%" />
+					<alert type="processes" limit="30" />
+				</client>
+				<client login="user2" pass="aaa2", mail="abhnith7@gmail.com">
+					<alert type="memory" limit="2%" />
+					<alert type="cpu" limit="97%" />
+					<alert type="processes" limit="300" />
+				</client>
+		o	This xml file is parsed and data is stored in C++ class. 
+			Later this parsed data is compared with the data sent by client.
+			If there is any alert of violation, an email, stating all the violations, is sent to the email address 
+			as specified in the xml database for that client.
+
+		•	Service then logs all the raw data sent by client in a log file ( logs.txt ) and waits for further requests.
+		•	Press a number and the enter to quit the service.
+
+
+
+
+
+
+More Details:
+
+	=========
+	Client:
+	=========
+	•	Win32 API has been used to fetch the processes and their memory consumptions.
+	The code can be found in files Performance.h and Performance.cpp .
+	•	For CPU consumption Performance Data Helper(PDH) library has been used.
+	•	Percentage CPU utilization has been calculated using the following formula:
+
+	CPU% = (100.0 * ( ProcessKernelTime + ProcessUserTime ) )  /  
+		 ( SystemKernelTime + SystemUserTime )
+
+	•	The above values of time are difference of time consumed corresponding to user and kernel.
+		Difference has been determined for two values retrieved at an interval of 1 second.
+	•	The Code for can be found in files CPUUsage.h and CPUUsage.cpp .
+
+	=========
+	Service:
+	=========
+	•	Server uses http_listener class ( from C++ REST SDK ) to host a http server.
+	•	Code specific to XML parsing is in files XMLParser.h{,cpp} .
+	•	Code for SMTP library can be found in files SmtpLib.h{,cpp} .
+	•	Please refer to class “ClientData” defined in file XMLParser.h .
+		ClientData class stores the data of a client parsed from xml database.

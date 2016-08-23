@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<client login="user1" pass="aaa1", mail="abhgang@gmail.com">
+	<alert type="memory" limit="50%" />
+	<alert type="cpu" limit="60%" />
+	<alert type="processes" limit="30" />
+</client>
+<client login="user2" pass="aaa2", mail="abhnith7@gmail.com">
+	<alert type="memory" limit="2%" />
+	<alert type="cpu" limit="70%" />
+	<alert type="processes" limit="200" />
+</client>
+<client login="user3" pass="aaa3", mail="abhgangwar@gmail.com">
+	<alert type="memory" limit="40%" />
+	<alert type="cpu" limit="50%" />
+	<alert type="processes" limit="60" />
+</client>
+<client login="user4" pass="aaa4", mail="abh@abhgangwar.me">
+	<alert type="memory" limit="70%" />
+	<alert type="cpu" limit="80%" />
+	<alert type="processes" limit="90" />
+</client>
+<client login="user5" pass="aaa5", mail="abh3@abhgangwar.me">
+	<alert type="memory" limit="50%" />
+	<alert type="cpu" limit="60%" />
+	<alert type="processes" limit="30" />
+</client>
+<client login="user6" pass="aaa6", mail="abh4@abhgangwar.me">
+	<alert type="memory" limit="50%" />
+	<alert type="cpu" limit="60%" />
+	<alert type="processes" limit="30" />
+</client>
+<client login="user7" pass="aaa7", mail="abh5@abhgangwar.me">
+	<alert type="memory" limit="50%" />
+	<alert type="cpu" limit="60%" />
+	<alert type="processes" limit="30" />
+</client>

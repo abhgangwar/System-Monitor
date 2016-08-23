@@ -1,0 +1,3 @@
+email	cppcloudtest@gmail.com
+pass	cpptestpass
+address	http://localhost:11426
